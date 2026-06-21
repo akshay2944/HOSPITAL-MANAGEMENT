@@ -5,7 +5,7 @@ const verifyAccessToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(
-      token,
+      access,
       process.env.SECRET_KEY
     );
 

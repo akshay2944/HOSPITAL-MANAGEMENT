@@ -77,20 +77,23 @@ const loginUser = async (req, res) => {
     const loggedInUser = await User.findById(user._id)
       .select("-password -refreshtoken -__v");
 
-    const options = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-    };
-
     return res
-      .status(200)
-      .cookie("refreshToken", refreshToken, options)
-      .json({
-        success: true,
-        user: loggedInUser,
-        accessToken,
-      });
+  .status(200)
+  .cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  })
+  .cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  })
+  .json({
+    success: true,
+    message: "Login successful",
+    user: loggedInUser,
+  });
 
   } catch (error) {
     return res.status(500).json({
