@@ -1,23 +1,40 @@
-import bycrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { User } from '../models/User.js';
-export const checkCookies = async (req, res, next) => {
-    try {
-        const accessToken = req.cookies.accessToken;
-        if (!token) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
+import jwt from "jsonwebtoken";
+import { User } from "../models/User.js";
 
-        const decoded = jwt.verify(accessToken, process.env.ACCESS_SECRET_KEY);
-        const user = await User.findById(decoded.id);
-        if (!user) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
-        req.user = user;
-        next();
+export const checkCookies = async (req, res, next) => {
+  try {
+    const accessToken = req.cookies.accessToken;
+
+    if (!accessToken) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
     }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+
+    const decoded = jwt.verify(
+      accessToken,
+      process.env.ACCESS_SECRET_KEY
+    );
+
+    const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
     }
-};  
+
+    req.user = user;
+
+    next();
+  } catch (error) {
+    console.error(error);
+
+    return res.status(401).json({
+      success: false,
+      message: "Invalid or expired token",
+    });
+  }
+};
