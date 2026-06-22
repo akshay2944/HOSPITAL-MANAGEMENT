@@ -1,19 +1,38 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
-const patientSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     fullName: {
       type: String,
       required: true,
+      trim: true,
     },
-    passward:{
-      type:String,
-      required:true
+
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
     },
 
     age: {
       type: Number,
       required: true,
+      min: 0,
     },
 
     gender: {
@@ -22,33 +41,88 @@ const patientSchema = new mongoose.Schema(
       required: true,
     },
 
-    phone: {
-      type: String,
-      required: true,
-    },
-
-    email: {
-      type: String,
-    },
-
     address: {
       type: String,
       required: true,
     },
-    role:{
-      type:String,
-      enum:[patient,doctor,nurse]
+
+    pincode: {
+      type: Number,
+      required: true,
     },
-    refreshtoken:{
-      type:String,
-    }
+
+    role: {
+      type: String,
+      enum: [
+        "patient",
+        "doctor",
+        "nurse",
+        "admin",
+        "receptionist",
+      ],
+      default: "patient",
+    },
+
+    avatar: {
+      public_id: String,
+      url: String,
+    },
+
+    refreshToken: {
+      type: String,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
+    lastLogin: {
+      type: Date,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 
-patientSchema.method
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password"))
+    return next();
 
-export default mongoose.model("Patient", patientSchema);
+  this.password = await bcrypt.hash(
+    this.password,
+    10
+  );
 
+  next();
+});
 
+userSchema.methods.comparePassword =
+  async function (password) {
+    return await bcrypt.compare(
+      password,
+      this.password
+    );
+  };
+
+  userSchema.methods.generateRefreshToken =
+  function () {
+    return jwt.sign(
+      {
+        id: this._id,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+  };
+
+const User = mongoose.model(
+  "User",
+  userSchema
+);
+
+export default User;

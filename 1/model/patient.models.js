@@ -1,29 +1,56 @@
 import mongoose from "mongoose";
-import userModels from "./user.models.js";
 
-const patientSchema = new mongoose.Schema({
+const patientSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
 
-  patientId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref:userModels,
-    unique: true,
+    patientId: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+
+    fullname: {
+      type: String,
+      required: true,
+    },
+
+    age: {
+      type: Number,
+      required: true,
+    },
+
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
+      required: true,
+    },
+
+    phone: {
+      type: String,
+      required: true,
+    },
+
+    address: {
+      type: String,
+      required: true,
+    },
+
+    medicalRecord: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MedicalRecord",
+    },
   },
+  {
+    timestamps: true,
+  }
+);
 
-  fullname:{
-    type:String,
-    required : true
-  },
-
-  age: Number,
-
-  gender: String,
-
-  phone: String,
-
-  address: String,
-
-  medicalRecord: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "MedicalRecord",
-  },
-});
+export default mongoose.model(
+  "Patient",
+  patientSchema
+);
