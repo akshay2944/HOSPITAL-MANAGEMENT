@@ -77,6 +77,45 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+<<<<<<< HEAD
+=======
+userSchema.methods.hashpassward = async (password) => {
+  const hashespassword = bcrypt.hash(password,9)
+  return hashespassword
+  
+}
+
+userSchema.methods.isPasswordCorrect = async function(password){
+    return await bcrypt.compare(
+        password,
+        this.password
+    );
+};
+userSchema.methods.generateAccessToken = function () {
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email
+        },
+        process.env.ACCESS_SECRET_KEY,
+        {
+            expiresIn:process.env.ACCESS_TOKEN_EXPIRETIME
+        }
+    );
+};
+userSchema.methods.generateRefreshToken= function () {
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email
+        },
+        process.env.REFRESH_SECRET_KEY,
+        {
+            expiresIn:process.env.REFRESH_TOKEN_EXPIRETIME
+        }
+    );
+};
+>>>>>>> user-control
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password"))
