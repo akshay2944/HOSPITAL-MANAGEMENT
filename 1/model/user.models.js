@@ -63,11 +63,6 @@ const userSchema = new mongoose.Schema(
       default: "patient",
     },
 
-    avatar: {
-      public_id: String,
-      url: String,
-    },
-
     refreshToken: {
       type: String,
     },
