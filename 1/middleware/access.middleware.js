@@ -34,8 +34,6 @@ export const isAuthenticated = async (
     ).select("-password -refreshToken");
 
     if (!user) {
-
-
       return res.status(401).json({
         success: false,
         message: "User not found",
