@@ -8,6 +8,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    username:{
+      type:String,
+      required:true,
+      unique:true
+    },
 
     email: {
       type: String,
@@ -65,16 +70,7 @@ const userSchema = new mongoose.Schema(
 
     refreshToken: {
       type: String,
-    },
-
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-
-    lastLogin: {
-      type: Date,
-    },
+    }
   },
   {
     timestamps: true,

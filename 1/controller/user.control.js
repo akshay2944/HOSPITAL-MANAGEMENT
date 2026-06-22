@@ -6,7 +6,7 @@ import otpHandler from "./otp.controller.js";
 
 const registerUser = async (req, res) => {
   try {
-    const { fullname, username, email, phone, password } = req.body;
+    const { fullname, username, email, phone, password, } = req.body;
 
     if (!fullname || !username || !email || !phone || !password) {
       return res.status(400).json({
