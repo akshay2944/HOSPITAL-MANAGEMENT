@@ -1,17 +1,46 @@
-export const uploadImage = async (req, res) => {
+import Medicine from "../model/midecin.models.js";
+
+export const uploadmedicin = async (req, res) => {
   try {
-    const {_idrole}=req.body
-    if (!req.file||!req.user) {
+    const {
+      name,
+      manufacturer,
+      category,
+      price,
+      stock,
+      expiryDate,
+      description,
+    } = req.body;
+
+    // Validation
+    if (
+      !name ||
+      !manufacturer ||
+      !category ||
+      !price ||
+      !stock ||
+      !expiryDate
+    ) {
       return res.status(400).json({
         success: false,
-        message: "No file uploaded",
+        message: "All required fields are mandatory",
       });
     }
 
-    res.status(200).json({
+    const medicine = await Medicine.create({
+      name,
+      manufacturer,
+      category,
+      price,
+      stock,
+      expiryDate,
+      description,
+    });
+
+    res.status(201).json({
       success: true,
-      message: "Image uploaded successfully",
-      file: req.file,
+      message: "Medicine added successfully",
+      medicine,
     });
   } catch (error) {
     res.status(500).json({
