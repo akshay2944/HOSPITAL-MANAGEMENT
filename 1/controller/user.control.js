@@ -48,12 +48,14 @@ if (existingUser) {
 }
 const hashpassward = User.hashpassward(password)
     // Create user here
+
     User.create({
       fullname,
       username,
       email,
       phone,
       hashpassward,
+      role,
       verifiy:false
     });
     return res.status(401).json({
