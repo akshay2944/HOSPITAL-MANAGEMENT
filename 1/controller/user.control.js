@@ -6,9 +6,30 @@ import otpHandler from "./otp.controller.js";
 
 const registerUser = async (req, res) => {
   try {
-    const { fullname, username, email, phone, password } = req.body;
+    const {
+      fullname,
+      username,
+      email,
+      phone,
+      password,
+      age,
+      gender,
+      address,
+      pincode,
+      role,
+    } = req.body;
 
-    if (!fullname || !username || !email || !phone || !password) {
+    if (
+      !fullname ||
+      !username ||
+      !email ||
+      !phone ||
+      !password ||
+      !age ||
+      !gender ||
+      !address ||
+      !pincode
+    ) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -16,23 +37,17 @@ const registerUser = async (req, res) => {
     }
 
     const existingUser = await User.findOne({
-      $or: [{ email }, { username }],
-    });
+  $or: [{ email }, { username }, { phone }],
+});
 
-    if (existingUser) {
-      return res.status(409).json({
-        success: false,
-        message: "User already exists",
-      });
-    }
-
-    // Generate and send OTP
-    await otpHandler(email);
-
-    return res.status(200).json({
-      success: true,
-      message: "OTP sent successfully",
-    });
+if (existingUser) {
+  return res.status(409).json({
+    success: false,
+    message: "User already exists",
+  });
+}
+const hashpassward = user.
+    // Create user here
 
   } catch (error) {
     return res.status(500).json({
@@ -41,6 +56,7 @@ const registerUser = async (req, res) => {
     });
   }
 };
+
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
