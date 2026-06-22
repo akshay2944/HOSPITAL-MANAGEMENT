@@ -76,9 +76,6 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-<<<<<<< HEAD
-=======
 userSchema.methods.hashpassward = async (password) => {
   const hashespassword = bcrypt.hash(password,9)
   return hashespassword
@@ -115,7 +112,6 @@ userSchema.methods.generateRefreshToken= function () {
         }
     );
 };
->>>>>>> user-control
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password"))
@@ -129,26 +125,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.comparePassword =
-  async function (password) {
-    return await bcrypt.compare(
-      password,
-      this.password
-    );
-  };
-
-  userSchema.methods.generateRefreshToken =
-  function () {
-    return jwt.sign(
-      {
-        id: this._id,
-      },
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
-  };
 
 const User = mongoose.model(
   "User",
