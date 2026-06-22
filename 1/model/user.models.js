@@ -2,15 +2,13 @@ import mongoose from "mongoose";
 
 const patientSchema = new mongoose.Schema(
   {
-    patientId: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-
     fullName: {
       type: String,
       required: true,
+    },
+    passward:{
+      type:String,
+      required:true
     },
 
     age: {
@@ -37,20 +35,17 @@ const patientSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
-    bloodGroup: {
-      type: String,
-    },
-
-    emergencyContact: {
-      type: String,
-    },
-
-    diseaseHistory: {
-      type: String,
+    role:{
+      type:String,
+      enum:[patient,doctor,nurse]
     }
   },
   { timestamps: true }
 );
 
+
+patientSchema.method
+
 export default mongoose.model("Patient", patientSchema);
+
+
