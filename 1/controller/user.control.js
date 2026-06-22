@@ -46,8 +46,20 @@ if (existingUser) {
     message: "User already exists",
   });
 }
-const hashpassward = user.
+const hashpassward = User.hashpassward(password)
     // Create user here
+    User.create({
+      fullname,
+      username,
+      email,
+      phone,
+      hashpassward,
+      verifiy:false
+    });
+    return res.status(401).json({
+      success: true,
+      message: "user successfully created",
+    });
 
   } catch (error) {
     return res.status(500).json({
