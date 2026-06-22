@@ -9,6 +9,5 @@ const router = express.Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/chat", aichatboat);
-router.post("/otp",otpHandler)
 
 export default router;
