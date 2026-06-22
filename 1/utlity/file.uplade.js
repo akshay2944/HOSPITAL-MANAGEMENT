@@ -12,20 +12,15 @@ cloudinary.config({
 });
 
 
-export const uploadImage =
-async (req, res) => {
-
-  const result =
-    await cloudinary.uploader.upload(
-      req.file.path,
-      {
-        folder: "users",
-      }
-    );
-
+export const uploadImage = async (req, res) => {
+  const result = await cloudinary.uploader.upload(
+    req.file.path,
+    {
+      folder: "users",
+    }
+  );
   res.json({
     success: true,
-    imageUrl:
-      result.secure_url,
+    imageUrl:result.secure_url,
   });
 };
