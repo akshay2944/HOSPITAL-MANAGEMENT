@@ -38,6 +38,9 @@ const patientSchema = new mongoose.Schema(
     role:{
       type:String,
       enum:[patient,doctor,nurse]
+    },
+    refreshtoken:{
+      type:String,
     }
   },
   { timestamps: true }
