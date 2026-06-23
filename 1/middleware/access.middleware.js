@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
 
 import jwt from "jsonwebtoken";
-import User from "../models/user.models.js";
+import user from "../models/user.models.js";
 
 export const isAuthenticated = async (
   req,
