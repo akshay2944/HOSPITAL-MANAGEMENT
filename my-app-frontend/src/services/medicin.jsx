@@ -20,34 +20,13 @@ function MedicineList() {
 
     fetchMedicines();
   }, []);
-
-
-  const addMedicine = (medicine) => {
-  setCart((prev) => {
-    const existing = prev.find(
-      item => item.medicineId === medicine._id
-    );
-
-    if (existing) {
-      return prev.map(item =>
-        item.medicineId === medicine._id
-          ? {
-              ...item,
-              quantity: item.quantity + 1
-            }
-          : item
-      );
-    }
-
-    return [
-      ...prev,
-      {
-        medicineId: medicine._id,
-        quantity: 1
-      }
-    ];
-  });
-};
+     const addmedicin = (medicine) => {
+  setCart((prev) => [...prev, medicine]);
+  console.log("Cart:", [...cart, medicine]);
+  const addcart = axios.post(
+    URL="http://localhost:8000/api/users/medicin"
+  )
+     }
 
 
 
