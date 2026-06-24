@@ -1,28 +1,44 @@
 import mongoose from "mongoose";
-import Patient from "./patient.models.js";
 
-const medicalRecordSchema = new mongoose.Schema(
+const medicineSchema = new mongoose.Schema(
   {
-    patient: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Patient",
+    name: {
+      type: String,
       required: true,
     },
 
-    bloodGroup: String,
+    manufacturer: {
+      type: String,
+      required: true,
+    },
 
-    allergies: [String],
+    category: {
+      type: String,
+      required: true,
+    },
 
-    chronicDiseases: [String],
+    price: {
+      type: Number,
+      required: true,
+    },
 
-    familyHistory: String,
+    stock: {
+      type: Number,
+      default: 0,
+    },
 
-    notes: String,
+    expiryDate: {
+      type: Date,
+      required: true,
+    },
+
+    description: String,
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-export default mongoose.model(
-  "MedicalRecord",
-  medicalRecordSchema
-);
+const Medicine = mongoose.model("Medicine", medicineSchema);
+
+export default Medicine;
