@@ -2,7 +2,6 @@
 import user  from "../model/user.models.js";
 import mongoose, { deleteModel } from "mongoose";
 import User from "../model/user.models.js";
-import otpHandler from "./otp.controller.js";
 
 const registerUser = async (req, res) => {
   try {
