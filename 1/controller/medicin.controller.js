@@ -40,7 +40,7 @@ const medicinRegister = async (req, res) => {
     }
 
     // Create medicine
-    const medicine = await Medicine.create({
+    const medicines = await Medicine.create({
       name,
       manufacturer,
       category,
@@ -53,7 +53,7 @@ const medicinRegister = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "Medicine registered successfully",
-      medicine,
+      medicines,
     });
   } catch (error) {
     return res.status(500).json({
@@ -63,4 +63,25 @@ const medicinRegister = async (req, res) => {
   }
 };
 
-export default medicinRegister;
+
+const getAllMedicines = async (req, res) => {
+  try {
+    const medicines = await Medicine.find();
+
+    res.status(200).json({
+      success: true,
+      medicines,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const addcart = async(req ,res)=>{
+    
+};
+
+export  {medicinRegister , getAllMedicines};

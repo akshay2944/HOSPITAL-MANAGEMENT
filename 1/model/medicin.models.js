@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "./user.models.js";
 
 const medicineSchema = new mongoose.Schema(
   {
@@ -8,7 +9,8 @@ const medicineSchema = new mongoose.Schema(
     },
 
     manufacturer: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref:User,
       required: true,
     },
 
