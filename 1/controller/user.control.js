@@ -2,9 +2,12 @@
 import user  from "../model/user.models.js";
 import mongoose, { deleteModel } from "mongoose";
 import User from "../model/user.models.js";
+import bcrypt from "bcrypt";
+import Patient from "../model/patient.models.js";
 
 const registerUser = async (req, res) => {
   try {
+    console.log(req.body)
     const {
       fullname,
       username,
@@ -45,7 +48,7 @@ if (existingUser) {
     message: "User already exists",
   });
 }
-const hashpassward = User.hashpassward(password)
+const hashedPassword = await bcrypt.hash(password,10);
     // Create user here
 
     User.create({
@@ -53,7 +56,7 @@ const hashpassward = User.hashpassward(password)
       username,
       email,
       phone,
-      hashpassward,
+      password: hashedPassword,
       role,
       verifiy:false
     });
@@ -61,6 +64,17 @@ const hashpassward = User.hashpassward(password)
       success: true,
       message: "user successfully created",
     });
+    if (role==="Patient") {
+      Patient.create({
+        fullname,
+        age,
+        gender,
+        phone,
+        address
+      })
+    } else {
+      
+    }
 
   } catch (error) {
     return res.status(500).json({

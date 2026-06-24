@@ -25,6 +25,7 @@ const medicinRegister = async (req, res) => {
         message: "All required fields are mandatory",
       });
     }
+    const decodeduser = req.body.refreshtoken
 
     // Check if medicine already exists
     const existingMedicine = await Medicine.findOne({

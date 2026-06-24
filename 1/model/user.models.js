@@ -76,11 +76,9 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-userSchema.methods.hashpassward = async (password) => {
-  const hashespassword = bcrypt.hash(password,9)
-  return hashespassword
-  
-}
+userSchema.methods.hashPassword = async function (password) {
+  return await bcrypt.hash(password, 10);
+};
 
 userSchema.methods.isPasswordCorrect = async function(password){
     return await bcrypt.compare(
