@@ -32,7 +32,8 @@ const prescriptionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model(
+ const prescription = mongoose.model(
   "Prescription",
   prescriptionSchema
 );
+export default prescription;
